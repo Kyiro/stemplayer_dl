@@ -1,6 +1,6 @@
 from random import random
 import requests, logging, os 
-from merger import merge
+#from merger import merge
 
 API_URL = "https://api.stemplayer.com/"
 BASE_FOLDER = "Dump"
@@ -20,13 +20,16 @@ def random_serial() -> str:
 
 def save_file(url, path):
     r = requests.get(url).content
-    with open(f'path', 'wb') as f:
+    with open(path, 'wb') as f:
         f.write(r)
         
 def download_stems(data, album, track):
     logging.debug("      download_stems: initialized")
     
-    os.makedirs(f'{os.getcwd()}/{BASE_FOLDER}/{album}/{track}')
+    try:
+        os.makedirs(f'{os.getcwd()}/{BASE_FOLDER}/{album}/{track}')
+    except:
+        pass
     
     for url in data:
         match (url):
