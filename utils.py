@@ -18,6 +18,11 @@ def random_serial() -> str:
     
     return str(res)
 
+def save_file(url, path):
+    r = requests.get(url).content
+    with open(f'path', 'wb') as f:
+        f.write(r)
+        
 def download_stems(data, album, track):
     logging.debug("      download_stems: initialized")
     
@@ -26,34 +31,21 @@ def download_stems(data, album, track):
     for url in data:
         match (url):
             case "1":
-                r = requests.get(data[url]).content
-                with open(f'{BASE_FOLDER}/{album}/{track}/instrumental.mp3', 'wb') as f:
-                    f.write(r)
-                pass
+                save_file(data[url], f'{BASE_FOLDER}/{album}/{track}/instrumental.mp3')
             case "2":
-                r = requests.get(data[url]).content
-                with open(f'{BASE_FOLDER}/{album}/{track}/vocals.mp3', 'wb') as f:
-                    f.write(r)
-                pass
+                save_file(data[url], f'{BASE_FOLDER}/{album}/{track}/vocals.mp3')
             case "3":
-                r = requests.get(data[url]).content
-                with open(f'{BASE_FOLDER}/{album}/{track}/drums.mp3', 'wb') as f:
-                    f.write(r)
-                pass
+                save_file(data[url], f'{BASE_FOLDER}/{album}/{track}/drums.mp3')
             case "4":
-                r = requests.get(data[url]).content
-                with open(f'{BASE_FOLDER}/{album}/{track}/bass.mp3', 'wb') as f:
-                    f.write(r)
+                save_file(data[url], f'{BASE_FOLDER}/{album}/{track}/bass.mp3')
             case _:
                 logging.info("      download_stems: Unsupported stem?")
-    
+            
     logging.debug("      download_stems: finished")
     
     #if (MERGE_SONGS):
     #    merge(album, track)
     
-    return
-
 def get_albums():
     logging.info('request: Getting list of albums from the Kano API')
     
